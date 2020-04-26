@@ -3,15 +3,16 @@ import inspect
 import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
-from config import *
 
-# LOG_PATH = '/Applications/MAMP/htdocs/bolwiki2Py/'
+LOG_MODE = 'FILE'
+LOG_PATH = ''
+
 FORMATTER = logging.Formatter(u"%(asctime)s—%(filename)s—>%(message)s")
 # LOG_FILE = "my_app.log"
 main_prog = os.path.basename(str(inspect.stack()[-1][1]))
 if main_prog == 'pydevd.py':
     main_prog = 'LogTest2.py'
-LOG_FILE = LOG_PATH + "/" + os.path.splitext(main_prog)[0] + ".log"
+LOG_FILE = LOG_PATH + os.path.splitext(main_prog)[0] + ".log"
 loggers = {}
 
 
