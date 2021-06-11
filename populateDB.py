@@ -43,6 +43,10 @@ class PopulateDB:
         self.db.commit()
         return self.cursor.rowcount
 
+    def query_delete(self, sql):
+        result = self.query_insert_update(sql)
+        return result
+
     def rows(self):
         return self.cursor.rowcount
 
@@ -150,3 +154,22 @@ class PopulateDB:
             self.log.debug("Found more than 1 match:" + sql)
             return None
         return id_val
+
+    def delete(self, table_name, where_dict):
+        where_dict_len = len(where_dict)
+        where_str = ''
+        where_idx = 0
+        for where_key, where_val in where_dict.items():
+            if 0 < where_idx < where_dict_len:
+                where_str = where_str + " AND "
+            where_str = where_str + ' ' + str(where_key) + "='" + str(where_val) + "'"
+            where_idx += 1
+
+        sql = 'delete from ' + table_name + ' where ' + where_str
+        result = self.query_insert_update(sql)
+        if result is None:
+            self.log.debug("delete failed:" + sql)
+        else:
+            self.log.debug("update successful in :" + table_name)
+
+        return result
